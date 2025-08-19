@@ -10,12 +10,44 @@ function Playreel() {
   
     useEffect(() => {
      gsap.registerPlugin(ScrollTrigger);
+
+     const mm = gsap.matchMedia();
+
+     mm.add("(max-width: 639px)", () => {
+      // mobile
+      var tl = gsap.timeline({
+        scrollTrigger: {
+       trigger: parent.current,
+       start: "top top",
+       pin: true,
+       scrub: true,
+     } 
+    })
+    tl.to(videodiv.current, {
+     width: "100%",
+     height: "100%",
+     ease: "power4.out",
+   },'a')
+   .to(play.current,{
+      x: "150%",
+      scale: 1.2,    
+      ease: "power4",
+   },'a')
+   .to(reel.current,{
+     x: "-150%",
+     scale: 1.2,
+     ease: "power4",
+   },'a')
+     });
+
+     mm.add("(min-width: 640px)", () => {
+      // desktop
        var tl = gsap.timeline({
            scrollTrigger: {
           trigger: parent.current,
-          start: "top top", // Fixed from "top: '0 0'" to correct syntax
+          start: "top top",
           pin: true,
-          scrub: true, // Optional: Makes the animation smoother with scroll
+          scrub: true,
         } 
        })
        tl.to(videodiv.current, {
@@ -33,6 +65,11 @@ function Playreel() {
         scale: 1.2,
         ease: "power4",
       },'a')
+     });
+
+     return () => {
+      mm.revert();
+     }
       });
   
  

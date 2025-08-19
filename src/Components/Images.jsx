@@ -11,32 +11,70 @@ const Images = () => {
    
    useEffect(()=>{
     gsap.registerPlugin(ScrollTrigger);
-    const tl = gsap.timeline({
-      scrollTrigger: {
-      trigger: parent.current,
-      start: "top top",
-      end: "-90 top",
-      pin: true,
-      scrub: 3,   // ✅ enables forward + reverse animation
-      markers: false // change to true for debugging
-      }
-   });
-    tl.to(first.current,{
-        x: "40%",
+
+    const mm = gsap.matchMedia();
+
+    mm.add("(max-width: 639px)", () => {
+      // mobile
+      const tl = gsap.timeline({
+        scrollTrigger: {
+        trigger: parent.current,
+        start: "top top",
+        end: "bottom bottom",
+        pin: true,
+        scrub: 3,
+        }
+     });
+      tl.to(first.current,{
+          x: "50%",
+          ease: "power4.out",
+      },'a')
+      tl.to(second.current,{
+         x: "-50%",
         ease: "power4.out",
-    },'a'),
-    tl.to(second.current,{
-       x: "-40%",
-      ease: "power4.out",
-    },'a'),
-     tl.to(third.current,{
-       x: "-40%",
-      ease: "power4.out",
-    },'a'),
-     tl.to(fourth.current,{
-       x: "40%",
-      ease: "power4.out",
-    },'a')
+      },'a')
+       tl.to(third.current,{
+         x: "-50%",
+        ease: "power4.out",
+      },'a')
+       tl.to(fourth.current,{
+         x: "50%",
+        ease: "power4.out",
+      },'a')
+    })
+
+    mm.add("(min-width: 640px)", () => {
+      // desktop
+      const tl = gsap.timeline({
+        scrollTrigger: {
+        trigger: parent.current,
+        start: "top top",
+        end: "bottom bottom",
+        pin: true,
+        scrub: 3,
+        }
+     });
+      tl.to(first.current,{
+          x: "60%",
+          ease: "power4.out",
+      },'a')
+      tl.to(second.current,{
+         x: "-40%",
+        ease: "power4.out",
+      },'a')
+       tl.to(third.current,{
+         x: "-40%",
+        ease: "power4.out",
+      },'a')
+       tl.to(fourth.current,{
+         x: "40%",
+        ease: "power4.out",
+      },'a')
+    })
+
+    return () => {
+      mm.revert();
+    }
    })
 
   return (
